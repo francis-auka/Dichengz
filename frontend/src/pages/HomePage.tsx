@@ -3,25 +3,31 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import MainLayout from '../layouts/MainLayout';
 import { fadeInUp, staggerContainer, hoverLift } from '../utils/animations';
-import { getHomepage } from '../services/sanity';
+import { getHomepageItems } from '../services/sanity';
 import CloudinaryImage from '../components/CloudinaryImage';
 
 const HomePage: React.FC = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [heroImages, setHeroImages] = useState<string[]>([]);
     const [newArrivals, setNewArrivals] = useState<any[]>([]);
+    const [filteredArrivals, setFilteredArrivals] = useState<any[]>([]);
+    const [activeTab, setActiveTab] = useState('Women');
     const [loading, setLoading] = useState(true);
 
+    const categories = ['Women', 'Men', 'Shoes', 'Bags', 'Accessories'];
+
+    const heroImages = [
+        "/assets/images/hero/hero-1.jpg",
+        "/assets/images/hero/hero-2.jpg",
+        "/assets/images/hero/hero-3.jpg",
+        "/assets/images/hero/hero-4.jpg",
+        "/assets/images/hero/hero-5.jpg"
+    ];
+
     useEffect(() => {
-        getHomepage()
+        getHomepageItems()
             .then(data => {
                 if (data) {
-                    if (data.hero && data.hero.images) {
-                        setHeroImages(data.hero.images);
-                    }
-                    if (data.newArrivals) {
-                        setNewArrivals(data.newArrivals);
-                    }
+                    setNewArrivals(data);
                 }
                 setLoading(false);
             })
@@ -31,23 +37,19 @@ const HomePage: React.FC = () => {
             });
     }, []);
 
-    // Fallback images if no data from Sanity
-    const defaultHeroImages = [
-        "/assets/images/hero/hero-1.jpg",
-        "/assets/images/hero/hero-2.jpg",
-        "/assets/images/hero/hero-3.jpg",
-        "/assets/images/hero/hero-4.jpg",
-        "/assets/images/hero/hero-5.jpg"
-    ];
-
-    const displayImages = heroImages.length > 0 ? heroImages : defaultHeroImages;
+    useEffect(() => {
+        if (newArrivals.length > 0) {
+            const filtered = newArrivals.filter(item => item.category === activeTab);
+            setFilteredArrivals(filtered);
+        }
+    }, [activeTab, newArrivals]);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentImageIndex((prev) => (prev + 1) % displayImages.length);
-        }, 6000); // Slower transition for editorial feel
+            setCurrentImageIndex((prev) => (prev + 1) % heroImages.length);
+        }, 6000);
         return () => clearInterval(interval);
-    }, [displayImages]);
+    }, []);
 
     if (loading) {
         return (
@@ -63,7 +65,6 @@ const HomePage: React.FC = () => {
         <MainLayout>
             {/* Hero Section */}
             <section className="relative h-[85vh] flex items-center justify-center px-4 md:px-20 text-white bg-secondary overflow-hidden">
-                {/* Carousel Background */}
                 <AnimatePresence mode="popLayout">
                     <motion.div
                         key={currentImageIndex}
@@ -73,22 +74,14 @@ const HomePage: React.FC = () => {
                         transition={{ duration: 2, ease: "easeInOut" }}
                         className="absolute inset-0 z-0"
                     >
-                        {heroImages.length > 0 ? (
-                            <CloudinaryImage
-                                publicId={displayImages[currentImageIndex]}
-                                alt={`Fashion Editorial ${currentImageIndex + 1}`}
-                                className="w-full h-full object-cover object-[center_20%] md:object-[center_15%]"
-                            />
-                        ) : (
-                            <img
-                                src={displayImages[currentImageIndex]}
-                                alt={`Fashion Editorial ${currentImageIndex + 1}`}
-                                className="w-full h-full object-cover object-[center_20%] md:object-[center_15%]"
-                                loading="eager"
-                            />
-                        )}
-                        <div className="absolute inset-0 bg-black/40 mix-blend-multiply"></div> {/* Editorial overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div> {/* Bottom fade */}
+                        <img
+                            src={heroImages[currentImageIndex]}
+                            alt={`Fashion Editorial ${currentImageIndex + 1}`}
+                            className="w-full h-full object-cover object-[center_20%] md:object-[center_15%]"
+                            loading="eager"
+                        />
+                        <div className="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                     </motion.div>
                 </AnimatePresence>
 
@@ -145,16 +138,20 @@ const HomePage: React.FC = () => {
                         whileInView="animate"
                         viewport={{ once: true }}
                         variants={fadeInUp}
-                        className="text-3xl font-bold mb-4"
+                        className="text-3xl font-bold mb-8"
                     >
                         New Arrivals
                     </motion.h2>
-                    <div className="flex justify-center space-x-6 text-sm text-gray-500 uppercase tracking-wide">
-                        <Link to="/shop?category=Women" className="text-primary font-semibold border-b-2 border-primary pb-1 cursor-pointer">Women</Link>
-                        <Link to="/shop?category=Men" className="cursor-pointer hover:text-primary transition-colors">Men</Link>
-                        <Link to="/shop?category=Shoes" className="cursor-pointer hover:text-primary transition-colors">Shoes</Link>
-                        <Link to="/shop?category=Bags" className="cursor-pointer hover:text-primary transition-colors">Bags</Link>
-                        <Link to="/shop?category=Accessories" className="cursor-pointer hover:text-primary transition-colors">Accessories</Link>
+                    <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-500 uppercase tracking-wide">
+                        {categories.map((cat) => (
+                            <button
+                                key={cat}
+                                onClick={() => setActiveTab(cat)}
+                                className={`transition-colors ${activeTab === cat ? 'text-primary font-semibold border-b-2 border-primary pb-1' : 'hover:text-primary'}`}
+                            >
+                                {cat}
+                            </button>
+                        ))}
                     </div>
                 </div>
 
@@ -165,13 +162,12 @@ const HomePage: React.FC = () => {
                     viewport={{ once: true }}
                     className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8"
                 >
-                    {newArrivals.length > 0 ? (
-                        newArrivals.map((product) => (
-                            <Link to={`/product/${product.slug}`} key={product._id}>
+                    {filteredArrivals.length > 0 ? (
+                        filteredArrivals.map((product) => (
+                            <Link to={`/product/${product.slug}`} key={product._id} className="group cursor-pointer block">
                                 <motion.div
                                     variants={fadeInUp}
                                     whileHover="hover"
-                                    className="group cursor-pointer"
                                 >
                                     <motion.div
                                         variants={hoverLift}
@@ -191,30 +187,16 @@ const HomePage: React.FC = () => {
                                     </motion.div>
                                     <p className="text-xs text-gray-500 mb-1 uppercase">{product.category}</p>
                                     <h3 className="font-semibold text-sm mb-1">{product.name}</h3>
-                                    <p className="text-gray-500 text-sm">${product.price.toFixed(2)}</p>
+                                    <p className="text-gray-500 text-sm">
+                                        {product.price ? `$${product.price.toFixed(2)}` : 'Price not available'}
+                                    </p>
                                 </motion.div>
                             </Link>
                         ))
                     ) : (
-                        // Fallback / Placeholder if no new arrivals selected
-                        [1, 2, 3, 4].map((i) => (
-                            <motion.div
-                                key={i}
-                                variants={fadeInUp}
-                                whileHover="hover"
-                                className="group cursor-pointer"
-                            >
-                                <motion.div
-                                    variants={hoverLift}
-                                    className="bg-gray-100 aspect-square mb-4 relative overflow-hidden"
-                                >
-                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">Product Image</div>
-                                </motion.div>
-                                <p className="text-xs text-gray-500 mb-1">CATEGORY</p>
-                                <h3 className="font-semibold text-sm mb-1">Product Name</h3>
-                                <p className="text-gray-500 text-sm">$0.00</p>
-                            </motion.div>
-                        ))
+                        <div className="col-span-full text-center py-10 text-gray-400">
+                            No new arrivals found for {activeTab}.
+                        </div>
                     )}
                 </motion.div>
             </section>
@@ -291,3 +273,4 @@ const HomePage: React.FC = () => {
 };
 
 export default HomePage;
+

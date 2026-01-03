@@ -6,9 +6,11 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
-import CheckoutPage from './pages/CheckoutPage';
+// import CheckoutPage from './pages/CheckoutPage';
 import AccountDashboard from './pages/AccountDashboard';
 import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import ShippingReturnsPage from './pages/ShippingReturnsPage';
 
 const App: React.FC = () => {
   return (
@@ -20,9 +22,11 @@ const App: React.FC = () => {
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/product/:slug" element={<ProductDetailPage />} />
             <Route path="/cart" element={<CartPage />} />
-            <Route path="/checkout" element={<CheckoutPage />} />
+            {/* <Route path="/checkout" element={<CheckoutPage />} /> */}
             <Route path="/account" element={<AccountDashboard />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/shipping-returns" element={<ShippingReturnsPage />} />
           </Routes>
         </Router>
       </CartProvider>

@@ -1,6 +1,6 @@
 export default {
-    name: 'homepage',
-    title: 'Homepage New Arrivals',
+    name: 'shop',
+    title: 'Shop Items',
     type: 'document',
     fields: [
         {

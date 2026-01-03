@@ -22,47 +22,37 @@ export const client = createClient({
   perspective: 'published', // Only return published documents
 });
 
-export async function getProducts() {
-  return await client.fetch(`*[_type == "product"]{
+export async function getHomepageItems() {
+  return await client.fetch(`*[_type == "homepage"]{
     _id,
     name,
-    "slug": slug.current,
     price,
-    "category": category->title,
-    "imageUrl": variants[0].images[0]
+    category,
+    "slug": slug.current,
+    "imageUrl": image
+  }`);
+}
+
+export async function getShopItems() {
+  return await client.fetch(`*[_type == "shop"]{
+    _id,
+    name,
+    price,
+    category,
+    "slug": slug.current,
+    "imageUrl": image
   }`);
 }
 
 export async function getProduct(slug: string) {
-  return await client.fetch(`*[_type == "product" && slug.current == $slug][0]{
+  return await client.fetch(`*[_type in ["homepage", "shop"] && slug.current == $slug][0]{
     _id,
     name,
-    description,
     price,
-    "category": category->title,
-    variants
+    "category": category,
+    "slug": slug.current,
+    "imageUrl": image,
+    "description": description,
+    "variants": []
   }`, { slug });
-}
-
-export async function getCategories() {
-  return await client.fetch(`*[_type == "category"]{
-    _id,
-    title,
-    "slug": slug.current
-  }`);
-}
-
-export async function getHomepage() {
-  return await client.fetch(`*[_type == "homepage"][0]{
-    hero,
-    "newArrivals": newArrivals[]->{
-      _id,
-      name,
-      "slug": slug.current,
-      price,
-      "category": category->title,
-      "imageUrl": variants[0].images[0]
-    },
-    sections
-  }`);
 }
