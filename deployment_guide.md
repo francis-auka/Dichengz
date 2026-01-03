@@ -55,7 +55,7 @@ This guide covers how to host the Dichengz application components:
     *   `VITE_SANITY_API_VERSION`: `2023-05-03`
     *   `VITE_SANITY_TOKEN`: (Optional, usually not needed for public read).
     *   `VITE_CLOUDINARY_CLOUD_NAME`: Your Cloudinary Cloud Name.
-    *   `VITE_API_URL`: The URL of your deployed Render backend (e.g., `https://dichengz-api.onrender.com`).
+    *   `VITE_API_URL`: `https://dichengz.onrender.com`
 6.  **Deploy**: Click "Deploy".
 
 ---
@@ -65,7 +65,7 @@ This guide covers how to host the Dichengz application components:
 1.  Go to [Sanity Manage](https://www.sanity.io/manage).
 2.  Select your project.
 3.  Go to **API** > **CORS Origins**.
-4.  Add your Vercel frontend URL (e.g., `https://dichengz.vercel.app`).
+4.  Add your Vercel frontend URL: `https://dichengz.vercel.app`
 5.  Allow credentials if needed.
 
 ---

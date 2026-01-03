@@ -56,7 +56,7 @@ const CartPage: React.FC = () => {
             if (item.size) message += `Size: ${item.size}\n`;
             if (item.color) message += `Color: ${item.color}\n`;
             message += `Quantity: ${item.quantity}\n`;
-            message += `Link: https://dichengz.com/product/${item.sku}\n\n`;
+            message += `Link: https://dichengz.vercel.app/product/${item.sku}\n\n`;
         });
 
         message += "--------------------------------\n";
