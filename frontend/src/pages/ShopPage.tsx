@@ -3,6 +3,7 @@ import MainLayout from '../layouts/MainLayout';
 import { getShopItems } from '../services/sanity';
 import CloudinaryImage from '../components/CloudinaryImage';
 import { Link, useSearchParams } from 'react-router-dom';
+import LoadingScreen from '../components/LoadingScreen';
 
 const ShopPage: React.FC = () => {
     const [products, setProducts] = useState<any[]>([]);
@@ -58,11 +59,7 @@ const ShopPage: React.FC = () => {
                 <h1 className="text-3xl font-bold mb-8">Shop</h1>
 
                 {/* Loading State */}
-                {loading && (
-                    <div className="text-center py-8">
-                        <p className="text-lg">Loading products...</p>
-                    </div>
-                )}
+                {loading && <LoadingScreen />}
 
                 {/* Error Message */}
                 {error && !loading && (

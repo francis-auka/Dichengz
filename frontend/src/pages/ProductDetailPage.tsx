@@ -4,6 +4,7 @@ import MainLayout from '../layouts/MainLayout';
 import { getProduct } from '../services/sanity';
 import CloudinaryImage from '../components/CloudinaryImage';
 import { useCart } from '../context/CartContext';
+import LoadingScreen from '../components/LoadingScreen';
 
 const ProductDetailPage: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
@@ -28,13 +29,7 @@ const ProductDetailPage: React.FC = () => {
     }, [slug]);
 
     if (loading) {
-        return (
-            <MainLayout>
-                <div className="container mx-auto px-4 py-12">
-                    <p className="text-center">Loading product...</p>
-                </div>
-            </MainLayout>
-        );
+        return <LoadingScreen />;
     }
 
     if (!product) {

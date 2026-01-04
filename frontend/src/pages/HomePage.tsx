@@ -5,6 +5,7 @@ import MainLayout from '../layouts/MainLayout';
 import { fadeInUp, staggerContainer, hoverLift } from '../utils/animations';
 import { getHomepageItems } from '../services/sanity';
 import CloudinaryImage from '../components/CloudinaryImage';
+import LoadingScreen from '../components/LoadingScreen';
 
 const HomePage: React.FC = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -52,13 +53,7 @@ const HomePage: React.FC = () => {
     }, []);
 
     if (loading) {
-        return (
-            <MainLayout>
-                <div className="h-screen flex items-center justify-center">
-                    <p>Loading...</p>
-                </div>
-            </MainLayout>
-        );
+        return <LoadingScreen />;
     }
 
     return (
