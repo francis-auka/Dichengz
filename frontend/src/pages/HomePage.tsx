@@ -188,7 +188,7 @@ const HomePage: React.FC = () => {
                                     <p className="text-xs text-gray-500 mb-1 uppercase">{product.category}</p>
                                     <h3 className="font-semibold text-sm mb-1">{product.name}</h3>
                                     <p className="text-gray-500 text-sm">
-                                        {product.price ? `$${product.price.toFixed(2)}` : 'Price not available'}
+                                        {product.price ? `KSH ${product.price.toFixed(2)}` : 'Price not available'}
                                     </p>
                                 </motion.div>
                             </Link>

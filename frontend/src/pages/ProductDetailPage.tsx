@@ -75,12 +75,12 @@ const ProductDetailPage: React.FC = () => {
                         <p className="text-sm text-gray-500 mb-2 uppercase">{product.category}</p>
                         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
                         <p className="text-2xl font-semibold text-primary mb-6">
-                            {product.price ? `$${product.price.toFixed(2)}` : 'Price not available'}
+                            {product.price ? `KSH ${product.price.toFixed(2)}` : 'Price not available'}
                         </p>
 
                         <div className="mb-6">
                             <h3 className="font-semibold mb-2">Description</h3>
-                            <p className="text-gray-600">{product.description || "Experience the elegance of African fashion with this exclusive piece."}</p>
+                            <p className="text-gray-600">{product.description}</p>
                         </div>
 
                         <button

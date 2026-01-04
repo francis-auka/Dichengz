@@ -113,7 +113,7 @@ const ShopPage: React.FC = () => {
                                     )}
                                 </div>
                                 <h3 className="font-semibold">{product.name}</h3>
-                                <p className="text-gray-500">${product.price.toFixed(2)}</p>
+                                <p className="text-gray-500">KSH {product.price.toFixed(2)}</p>
                             </Link>
                         ))
                     ) : (

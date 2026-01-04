@@ -60,7 +60,7 @@ const CartPage: React.FC = () => {
         });
 
         message += "--------------------------------\n";
-        message += `Total: $${total.toFixed(2)}`;
+        message += `Total: KSH ${total.toFixed(2)}`;
 
         return encodeURIComponent(message);
     };
@@ -102,7 +102,7 @@ const CartPage: React.FC = () => {
                                     <div className="flex-grow">
                                         <div className="flex justify-between mb-2">
                                             <h3 className="font-semibold text-lg">{item.name}</h3>
-                                            <p className="font-semibold">${(item.price * item.quantity).toFixed(2)}</p>
+                                            <p className="font-semibold">KSH {(item.price * item.quantity).toFixed(2)}</p>
                                         </div>
                                         <div className="text-sm text-gray-500 mb-4 space-y-1">
                                             {item.size && <p>Size: {item.size}</p>}
@@ -142,7 +142,7 @@ const CartPage: React.FC = () => {
                                 <h2 className="text-xl font-bold mb-6">Order Summary</h2>
                                 <div className="flex justify-between mb-4 text-lg font-semibold">
                                     <span>Total</span>
-                                    <span>${total.toFixed(2)}</span>
+                                    <span>KSH {total.toFixed(2)}</span>
                                 </div>
 
                                 <div className="space-y-4 mb-6">
