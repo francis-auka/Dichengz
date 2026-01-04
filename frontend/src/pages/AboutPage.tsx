@@ -65,6 +65,38 @@ const AboutPage: React.FC = () => {
                     </motion.div>
                 </section>
 
+                {/* Founder Section */}
+                <section className="py-20 bg-white border-t border-gray-100">
+                    <div className="container mx-auto px-4">
+                        <motion.div
+                            variants={staggerContainer}
+                            initial="initial"
+                            whileInView="animate"
+                            viewport={{ once: true }}
+                            className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center"
+                        >
+                            <motion.div variants={fadeInUp} className="relative h-[600px] order-2 md:order-1">
+                                <img
+                                    src="/eunice-auka.jpg"
+                                    alt="Eunice Auka - Founder of Dichengz"
+                                    className="w-full h-full object-cover rounded-lg shadow-2xl"
+                                />
+                                <div className="absolute -bottom-6 -right-6 bg-primary text-white p-8 rounded-lg hidden md:block">
+                                    <p className="text-2xl font-serif italic">"Fashion is cultural expression."</p>
+                                </div>
+                            </motion.div>
+                            <motion.div variants={fadeInUp} className="order-1 md:order-2">
+                                <h2 className="text-sm uppercase tracking-[0.3em] text-primary font-semibold mb-4">The Visionary</h2>
+                                <h3 className="text-4xl font-bold mb-8 text-secondary font-serif">Eunice Auka</h3>
+                                <p className="text-gray-600 text-lg leading-relaxed mb-6">
+                                    Eunice Auka is the founder of Dichengz, a fashion brand dedicated to crafting custom African-inspired designs. With a passion for cultural expression and detail, she creates pieces that blend tradition with modern style, offering clothing that is both meaningful and beautifully made.
+                                </p>
+                                <div className="w-20 h-1 bg-primary mb-8"></div>
+                            </motion.div>
+                        </motion.div>
+                    </div>
+                </section>
+
                 {/* Craftsmanship */}
                 <section className="py-20 bg-gray-50">
                     <div className="container mx-auto px-4">
