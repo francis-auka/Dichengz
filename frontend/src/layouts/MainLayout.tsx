@@ -13,7 +13,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <header className="bg-secondary text-white shadow-sm sticky top-0 z-50">
                 <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
                     <Link to="/" className="flex items-center">
-                        <img src="/logo.png" alt="Dichengz" className="h-12 w-auto" />
+                        <img src="/logo.png" alt="Dichengz" className="h-20 w-auto" />
                     </Link>
                     <div className="hidden md:flex space-x-6">
                         <Link to="/" className="hover:text-primary transition-colors">Home</Link>
@@ -48,7 +48,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             <footer className="bg-secondary text-white py-12 border-t border-secondary-light">
                 <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div>
-                        <img src="/logo.png" alt="Dichengz" className="h-12 w-auto mb-4 brightness-0 invert" />
+                        <img src="/logo.png" alt="Dichengz" className="h-20 w-auto mb-4 brightness-0 invert" />
                         <p className="text-gray-400">Urban edge meets modern elegance.</p>
                     </div>
                     <div>

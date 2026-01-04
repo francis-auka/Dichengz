@@ -18,7 +18,7 @@ const LoadingScreen: React.FC = () => {
                     }}
                     className="mb-4"
                 >
-                    <img src="/logo.png" alt="Dichengz" className="h-24 w-auto" />
+                    <img src="/logo.png" alt="Dichengz" className="h-40 w-auto" />
                 </motion.div>
                 <motion.div
                     initial={{ width: 0 }}
