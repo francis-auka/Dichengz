@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { useCart } from '../context/CartContext';
 import { pageTransition } from '../utils/animations';
 
@@ -16,7 +16,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         { name: 'Contact', path: '/contact' },
     ];
 
-    const menuVariants = {
+    const menuVariants: Variants = {
         closed: {
             x: "100%",
             transition: {
@@ -37,7 +37,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }
     };
 
-    const linkVariants = {
+    const linkVariants: Variants = {
         closed: { opacity: 0, x: 20 },
         open: { opacity: 1, x: 0 }
     };
