@@ -64,7 +64,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     </div>
 
                     <div className="flex items-center space-x-4 md:space-x-6 relative z-[70]">
-                        <Link to="/account" className="hidden md:block hover:text-primary transition-colors text-sm uppercase tracking-widest font-medium">Account</Link>
                         <Link to="/cart" className="relative hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
@@ -98,7 +97,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     </div>
                 </nav>
 
-                {/* Mobile Menu Overlay */}
                 <AnimatePresence>
                     {isMenuOpen && (
                         <motion.div
@@ -135,16 +133,6 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                                             </Link>
                                         ))}
                                     </div>
-                                </motion.div>
-
-                                <motion.div variants={linkVariants} className="pt-8">
-                                    <Link
-                                        to="/account"
-                                        className="text-primary uppercase tracking-widest text-sm font-bold"
-                                        onClick={() => setIsMenuOpen(false)}
-                                    >
-                                        My Account
-                                    </Link>
                                 </motion.div>
                             </div>
 

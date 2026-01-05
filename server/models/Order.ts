@@ -2,7 +2,11 @@ import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema({
     orderId: { type: String, required: true, unique: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false },
+    customer: {
+        name: String,
+        phone: { type: String, required: true }
+    },
     items: [{
         sku: String,
         quantity: Number,
@@ -11,7 +15,29 @@ const OrderSchema = new mongoose.Schema({
         image: String
     }],
     total: { type: Number, required: true },
-    status: { type: String, enum: ['pending', 'paid', 'failed', 'shipped'], default: 'pending' },
+    paymentMethod: {
+        type: String,
+        enum: ["mpesa", "whatsapp", "cash", "manual"],
+        default: "mpesa"
+    },
+    paymentStatus: {
+        type: String,
+        enum: ["unpaid", "paid", "failed"],
+        default: "unpaid"
+    },
+    status: {
+        type: String,
+        enum: [
+            "pending",
+            "awaiting_payment",
+            "paid",
+            "in_progress",
+            "ready",
+            "completed",
+            "cancelled"
+        ],
+        default: "pending"
+    },
     paymentDetails: {
         checkoutRequestID: String,
         merchantRequestID: String,

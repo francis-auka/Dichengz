@@ -24,6 +24,16 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/fashion-eco
     .then(() => console.log('MongoDB connected'))
     .catch(err => console.error(err));
 
+// Admin Authentication Middleware
+const adminAuth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const adminSecret = req.headers['x-admin-secret'];
+    if (adminSecret === process.env.ADMIN_SECRET) {
+        next();
+    } else {
+        res.status(401).json({ error: 'Unauthorized' });
+    }
+};
+
 // Inventory
 app.get('/inventory/:sku', async (req, res) => {
     try {
@@ -35,19 +45,25 @@ app.get('/inventory/:sku', async (req, res) => {
 });
 
 // Orders (Initiate Payment)
-// Orders (Initiate Payment)
 app.post('/orders', async (req, res) => {
-    const { phoneNumber, amount, items, userId } = req.body;
+    const { phoneNumber, amount, items, userId, customer, paymentMethod } = req.body;
     try {
         // Create pending order
         const order = new Order({
             orderId: `ORD-${Date.now()}`,
             user: userId,
+            customer: customer || { phone: phoneNumber },
             items,
             total: amount,
-            status: 'pending'
+            paymentMethod: paymentMethod || 'mpesa',
+            paymentStatus: 'unpaid',
+            status: paymentMethod === 'whatsapp' ? 'pending' : 'awaiting_payment'
         });
         await order.save();
+
+        if (paymentMethod === 'whatsapp') {
+            return res.json({ message: 'Order created for WhatsApp', orderId: order.orderId });
+        }
 
         // Initiate STK Push
         const stkResponse = await initiateSTKPush(phoneNumber, amount, order.orderId);
@@ -79,6 +95,7 @@ app.post('/daraja/callback', async (req, res) => {
         await Order.findOneAndUpdate(
             { 'paymentDetails.checkoutRequestID': CheckoutRequestID },
             {
+                paymentStatus: 'paid',
                 status: 'paid',
                 'paymentDetails.mpesaReceiptNumber': mpesaReceiptNumber
             }
@@ -87,11 +104,35 @@ app.post('/daraja/callback', async (req, res) => {
         // Failed
         await Order.findOneAndUpdate(
             { 'paymentDetails.checkoutRequestID': CheckoutRequestID },
-            { status: 'failed' }
+            { paymentStatus: 'failed', status: 'cancelled' }
         );
     }
 
     res.json({ message: 'Callback received' });
+});
+
+// Admin Routes
+app.get('/admin/orders', adminAuth, async (req, res) => {
+    try {
+        const orders = await Order.find().sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (err) {
+        res.status(500).json({ error: (err as Error).message });
+    }
+});
+
+app.patch('/admin/orders/:id', adminAuth, async (req, res) => {
+    const { paymentStatus, status } = req.body;
+    try {
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            { paymentStatus, status },
+            { new: true, runValidators: true }
+        );
+        res.json(order);
+    } catch (err) {
+        res.status(500).json({ error: (err as Error).message });
+    }
 });
 
 // Wishlist
