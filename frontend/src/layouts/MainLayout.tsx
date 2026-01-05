@@ -45,8 +45,8 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className="min-h-screen flex flex-col font-sans text-secondary">
             <header className="bg-secondary text-white shadow-sm sticky top-0 z-50">
-                <nav className="container mx-auto px-4 py-4 flex justify-between items-center">
-                    <Link to="/" className="flex items-center z-50" onClick={() => setIsMenuOpen(false)}>
+                <nav className="container mx-auto px-4 py-4 flex justify-between items-center relative">
+                    <Link to="/" className="flex items-center relative z-[70]" onClick={() => setIsMenuOpen(false)}>
                         <img src="/logo.png" alt="Dichengz" className="h-16 md:h-20 w-auto" />
                     </Link>
 
@@ -63,7 +63,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         ))}
                     </div>
 
-                    <div className="flex items-center space-x-4 md:space-x-6 z-50">
+                    <div className="flex items-center space-x-4 md:space-x-6 relative z-[70]">
                         <Link to="/account" className="hidden md:block hover:text-primary transition-colors text-sm uppercase tracking-widest font-medium">Account</Link>
                         <Link to="/cart" className="relative hover:text-primary transition-colors" onClick={() => setIsMenuOpen(false)}>
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -106,7 +106,7 @@ const MainLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                             animate="open"
                             exit="closed"
                             variants={menuVariants}
-                            className="fixed inset-0 bg-secondary z-40 flex flex-col pt-32 px-8 md:hidden"
+                            className="fixed inset-0 bg-secondary z-[60] flex flex-col pt-32 px-8 md:hidden overflow-y-auto"
                         >
                             <div className="flex flex-col space-y-8">
                                 {navLinks.map((link) => (
