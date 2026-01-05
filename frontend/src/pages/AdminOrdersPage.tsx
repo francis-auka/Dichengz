@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import MainLayout from '../layouts/MainLayout';
+import { API_URL } from '../config';
+
 
 interface Order {
     _id: string;
@@ -25,7 +27,7 @@ const AdminOrdersPage: React.FC = () => {
 
     const fetchOrders = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_API_URL}/admin/orders`, {
+            const response = await axios.get(`${API_URL}/admin/orders`, {
                 headers: { 'x-admin-secret': adminToken }
             });
             setOrders(response.data);
@@ -42,7 +44,7 @@ const AdminOrdersPage: React.FC = () => {
 
     const updateOrderStatus = async (id: string, updates: any) => {
         try {
-            await axios.patch(`${import.meta.env.VITE_API_URL}/admin/orders/${id}`, updates, {
+            await axios.patch(`${API_URL}/admin/orders/${id}`, updates, {
                 headers: { 'x-admin-secret': adminToken }
             });
             fetchOrders();
