@@ -15,8 +15,16 @@ dotenv.config();
 const app = express();
 app.use(helmet());
 app.use(compression());
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret']
+}));
 app.use(express.json());
+
+if (!process.env.ADMIN_SECRET) {
+    console.warn('WARNING: ADMIN_SECRET is not set in environment variables!');
+}
 
 const PORT = process.env.PORT || 5000;
 
