@@ -35,9 +35,16 @@ mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/fashion-eco
 // Admin Authentication Middleware
 const adminAuth = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const adminSecret = req.headers['x-admin-secret'];
-    if (adminSecret === process.env.ADMIN_SECRET) {
+
+    if (adminSecret && adminSecret === process.env.ADMIN_SECRET) {
         next();
     } else {
+        console.log(`Admin Auth Failed:`);
+        console.log(`- Header Secret Present: ${!!adminSecret}`);
+        console.log(`- Env Secret Present: ${!!process.env.ADMIN_SECRET}`);
+        if (adminSecret && process.env.ADMIN_SECRET) {
+            console.log(`- Length Match: ${adminSecret.length === process.env.ADMIN_SECRET.length}`);
+        }
         res.status(401).json({ error: 'Unauthorized' });
     }
 };
