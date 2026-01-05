@@ -1,4 +1,30 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+export interface IOrder extends Document {
+    orderId: string;
+    user?: mongoose.Types.ObjectId;
+    customer: {
+        name?: string;
+        phone: string;
+    };
+    items: Array<{
+        sku: string;
+        quantity: number;
+        price: number;
+        name: string;
+        image: string;
+    }>;
+    total: number;
+    paymentMethod: "mpesa" | "whatsapp" | "cash" | "manual";
+    paymentStatus: "unpaid" | "paid" | "failed";
+    status: "pending" | "awaiting_payment" | "paid" | "in_progress" | "ready" | "completed" | "cancelled";
+    paymentDetails?: {
+        checkoutRequestID?: string;
+        merchantRequestID?: string;
+        mpesaReceiptNumber?: string;
+    };
+    createdAt: Date;
+}
 
 const OrderSchema = new mongoose.Schema({
     orderId: { type: String, required: true, unique: true },
@@ -46,4 +72,4 @@ const OrderSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.model('Order', OrderSchema);
+export default mongoose.model<IOrder>('Order', OrderSchema);

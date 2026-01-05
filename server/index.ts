@@ -4,11 +4,11 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import helmet from 'helmet';
 import compression from 'compression';
-import Inventory from './models/Inventory';
-import Order from './models/Order';
-import User from './models/User';
-import Review from './models/Review';
-import { initiateSTKPush } from './services/daraja';
+import Inventory from './models/Inventory.js';
+import Order from './models/Order.js';
+import User from './models/User.js';
+import Review from './models/Review.js';
+import { initiateSTKPush } from './services/daraja.js';
 
 dotenv.config();
 

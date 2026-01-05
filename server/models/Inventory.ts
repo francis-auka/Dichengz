@@ -1,4 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+export interface IInventory extends Document {
+    sku: string;
+    productId: string;
+    variantId: string;
+    size: string;
+    color: string;
+    quantity: number;
+}
 
 const InventorySchema = new mongoose.Schema({
     sku: { type: String, required: true, unique: true },
@@ -9,4 +18,4 @@ const InventorySchema = new mongoose.Schema({
     quantity: { type: Number, required: true, default: 0 }
 });
 
-export default mongoose.model('Inventory', InventorySchema);
+export default mongoose.model<IInventory>('Inventory', InventorySchema);

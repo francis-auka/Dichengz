@@ -1,4 +1,13 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+export interface IReview extends Document {
+    productId: string;
+    user?: mongoose.Types.ObjectId;
+    rating: number;
+    comment?: string;
+    verified: boolean;
+    createdAt: Date;
+}
 
 const ReviewSchema = new mongoose.Schema({
     productId: { type: String, required: true },
@@ -9,4 +18,4 @@ const ReviewSchema = new mongoose.Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
-export default mongoose.model('Review', ReviewSchema);
+export default mongoose.model<IReview>('Review', ReviewSchema);
